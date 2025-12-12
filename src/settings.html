@@ -1,0 +1,231 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>ByteBuddy Settings</title>
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+      background: #f5f5f5;
+      padding: 30px;
+    }
+
+    .settings-container {
+      max-width: 450px;
+      margin: 0 auto;
+      background: white;
+      border-radius: 12px;
+      padding: 30px;
+      box-shadow: 0 2px 12px rgba(0, 0, 0, 0.1);
+    }
+
+    h1 {
+      font-size: 24px;
+      color: #333;
+      margin-bottom: 25px;
+    }
+
+    .setting-section {
+      margin-bottom: 25px;
+      padding-bottom: 25px;
+      border-bottom: 1px solid #eee;
+    }
+
+    .setting-section:last-child {
+      border-bottom: none;
+      margin-bottom: 0;
+      padding-bottom: 0;
+    }
+
+    .section-title {
+      font-size: 16px;
+      font-weight: 600;
+      color: #555;
+      margin-bottom: 15px;
+    }
+
+    .setting-item {
+      margin-bottom: 15px;
+    }
+
+    .setting-item:last-child {
+      margin-bottom: 0;
+    }
+
+    .setting-item label {
+      display: block;
+      font-size: 13px;
+      color: #666;
+      margin-bottom: 6px;
+    }
+
+    .setting-item input[type="number"],
+    .setting-item input[type="time"] {
+      width: 100%;
+      padding: 8px 12px;
+      border: 1px solid #ddd;
+      border-radius: 6px;
+      font-size: 14px;
+    }
+
+    .setting-item input[type="checkbox"] {
+      margin-right: 8px;
+    }
+
+    .checkbox-label {
+      display: flex;
+      align-items: center;
+      font-size: 14px;
+      color: #333;
+      cursor: pointer;
+    }
+
+    .pet-image-controls {
+      display: flex;
+      gap: 10px;
+      margin-bottom: 12px;
+    }
+
+    .upload-btn,
+    .reset-btn {
+      flex: 1;
+      padding: 10px 16px;
+      border: none;
+      border-radius: 6px;
+      font-size: 13px;
+      cursor: pointer;
+      transition: all 0.2s;
+      font-weight: 500;
+    }
+
+    .upload-btn {
+      background: #007aff;
+      color: white;
+    }
+
+    .upload-btn:hover {
+      background: #0051d5;
+    }
+
+    .reset-btn {
+      background: #f0f0f0;
+      color: #666;
+    }
+
+    .reset-btn:hover {
+      background: #e0e0e0;
+    }
+
+    .pet-preview {
+      margin-top: 12px;
+      border: 2px dashed #ddd;
+      border-radius: 8px;
+      padding: 15px;
+      background: #fafafa;
+      text-align: center;
+      display: none;
+    }
+
+    .pet-preview.visible {
+      display: block;
+    }
+
+    .pet-preview img {
+      max-width: 100%;
+      max-height: 150px;
+      object-fit: contain;
+    }
+
+    .save-button {
+      width: 100%;
+      padding: 12px;
+      background: #34c759;
+      color: white;
+      border: none;
+      border-radius: 8px;
+      font-size: 15px;
+      font-weight: 600;
+      cursor: pointer;
+      margin-top: 25px;
+      transition: all 0.2s;
+    }
+
+    .save-button:hover {
+      background: #28a745;
+    }
+
+    .description {
+      font-size: 12px;
+      color: #999;
+      margin-top: 5px;
+    }
+
+    input[type="file"] {
+      display: none;
+    }
+  </style>
+</head>
+<body>
+  <div class="settings-container">
+    <h1>ByteBuddy Settings</h1>
+
+    <!-- Pet Image Section -->
+    <div class="setting-section">
+      <div class="section-title">Pet Image</div>
+      <div class="setting-item">
+        <div class="pet-image-controls">
+          <button id="upload-pet-btn" class="upload-btn">Choose Image</button>
+          <button id="reset-pet-btn" class="reset-btn">Reset to Default</button>
+        </div>
+        <div id="pet-preview" class="pet-preview">
+          <img id="pet-preview-img" src="" alt="Pet Preview">
+        </div>
+        <input type="file" id="pet-image-input" accept="image/png,image/jpeg,image/jpg,image/gif">
+        <div class="description">Upload your custom pet image (PNG, JPG, or GIF, max 5MB)</div>
+      </div>
+    </div>
+
+    <!-- Reminders Section -->
+    <div class="setting-section">
+      <div class="section-title">Reminders</div>
+
+      <div class="setting-item">
+        <label class="checkbox-label">
+          <input type="checkbox" id="enable-water" checked>
+          Enable Water Reminders
+        </label>
+      </div>
+
+      <div class="setting-item">
+        <label>Water Reminder Interval (minutes):</label>
+        <input type="number" id="water-interval" value="120" min="5" max="300">
+        <div class="description">How often to remind you to drink water</div>
+      </div>
+
+      <div class="setting-item">
+        <label class="checkbox-label">
+          <input type="checkbox" id="enable-end-of-day" checked>
+          Enable Walk Reminder
+        </label>
+      </div>
+
+      <div class="setting-item">
+        <label>Walk Reminder Time:</label>
+        <input type="time" id="end-of-day-time" value="18:00">
+        <div class="description">Time to remind you to take a walk</div>
+      </div>
+    </div>
+
+    <button id="save-settings" class="save-button">Save Settings</button>
+  </div>
+
+  <script src="settings-renderer.js"></script>
+</body>
+</html>

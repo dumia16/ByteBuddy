@@ -1,0 +1,21 @@
+{
+  "name": "bytebuddy",
+  "version": "1.0.0",
+  "description": "A minimal desktop pet with meeting reminders, water reminders, and end-of-day nudges",
+  "main": "src/main.js",
+  "scripts": {
+    "start": "electron .",
+    "dev": "electron . --dev"
+  },
+  "keywords": [
+    "desktop-pet",
+    "electron",
+    "reminder"
+  ],
+  "author": "Your Name",
+  "license": "MIT",
+  "devDependencies": {
+    "electron": "^28.0.0"
+  },
+  "dependencies": {}
+}

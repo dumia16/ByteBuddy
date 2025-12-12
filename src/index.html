@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>ByteBuddy</title>
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+  <div id="pet-container" class="draggable">
+    <!-- Pet will be inserted here -->
+    <div id="pet"></div>
+
+    <!-- Speech bubble for reminders -->
+    <div id="speech-bubble" class="hidden">
+      <div class="bubble-content">
+        <p id="message-text">Time to drink water! 💧</p>
+        <button id="dismiss-btn">OK</button>
+      </div>
+    </div>
+  </div>
+
+  <script src="renderer.js"></script>
+</body>
+</html>
