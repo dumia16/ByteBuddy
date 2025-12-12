@@ -7,7 +7,7 @@
 
 ## 💡 Inspiration
 
-Remember those virtual pet apps from the 90s? I was obsessed with them in high school (my parents wouldn't let me have a real pet). Fast forward to now - I have my own dog JayJay, and I wanted to bring him onto my desktop so I can see him while working. ByteBuddy is the best of both worlds: a virtual companion based on your actual pet!
+Remember those mobile pet games? I was obsessed with them in high school (my parents wouldn't let me have a real pet). Fast forward to now - I have my own dog JayJay, and I wanted to bring him onto my desktop so I can see him while working. ByteBuddy is the best of both worlds: a virtual companion based on your actual pet!
 
 ## ✨ Features
 
@@ -206,7 +206,7 @@ MIT
 
 ## 🙏 Credits
 
-Created with love for JayJay 🐕 and inspired by the virtual pet apps of the 90s.
+Created with love for JayJay 🐕 and inspired by mobile pet games.
 
 Built using Electron and lots of coffee ☕
 

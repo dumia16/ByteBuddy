@@ -1,0 +1,414 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ByteBuddy - Demo Presentation</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Helvetica Neue', Arial, sans-serif;
+            background: #1a1a1a;
+            color: #ffffff;
+            overflow-x: hidden;
+        }
+
+        .slide {
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            padding: 60px 80px;
+            scroll-snap-align: start;
+        }
+
+        .slide-container {
+            scroll-snap-type: y mandatory;
+            overflow-y: scroll;
+            height: 100vh;
+        }
+
+        h1 {
+            font-size: 72px;
+            font-weight: 700;
+            margin-bottom: 30px;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        h2 {
+            font-size: 48px;
+            font-weight: 600;
+            margin-bottom: 40px;
+            color: #e0e0e0;
+        }
+
+        h3 {
+            font-size: 36px;
+            font-weight: 500;
+            margin-bottom: 30px;
+            color: #667eea;
+        }
+
+        p, li {
+            font-size: 28px;
+            line-height: 1.6;
+            color: #b0b0b0;
+            max-width: 900px;
+        }
+
+        ul {
+            list-style: none;
+            margin-top: 20px;
+        }
+
+        li {
+            margin-bottom: 20px;
+            padding-left: 40px;
+            position: relative;
+        }
+
+        li:before {
+            content: "→";
+            position: absolute;
+            left: 0;
+            color: #667eea;
+            font-weight: bold;
+        }
+
+        .highlight {
+            color: #667eea;
+            font-weight: 600;
+        }
+
+        .emoji {
+            font-size: 80px;
+            margin-bottom: 30px;
+        }
+
+        .pet-placeholder {
+            width: 400px;
+            height: 300px;
+            background: #2a2a2a;
+            border: 3px dashed #667eea;
+            border-radius: 20px;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            margin: 40px 0;
+            font-size: 24px;
+            color: #667eea;
+        }
+
+        .pet-placeholder-text {
+            margin-top: 20px;
+            font-size: 18px;
+            color: #888;
+        }
+
+        .github-link {
+            font-size: 36px;
+            color: #667eea;
+            text-decoration: none;
+            padding: 20px 40px;
+            border: 2px solid #667eea;
+            border-radius: 12px;
+            margin-top: 40px;
+            transition: all 0.3s ease;
+            display: inline-block;
+        }
+
+        .github-link:hover {
+            background: #667eea;
+            color: #1a1a1a;
+            transform: translateY(-5px);
+        }
+
+        .architecture {
+            display: flex;
+            gap: 60px;
+            margin-top: 40px;
+            justify-content: center;
+        }
+
+        .process-box {
+            background: #2a2a2a;
+            padding: 30px 40px;
+            border-radius: 16px;
+            border: 2px solid #667eea;
+            min-width: 300px;
+        }
+
+        .process-box h4 {
+            font-size: 28px;
+            color: #667eea;
+            margin-bottom: 20px;
+        }
+
+        .process-box p {
+            font-size: 20px;
+            color: #b0b0b0;
+            margin-bottom: 12px;
+        }
+
+        .arrow {
+            font-size: 48px;
+            color: #667eea;
+        }
+
+        .feature-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 30px;
+            margin-top: 40px;
+            max-width: 1000px;
+        }
+
+        .feature-item {
+            background: #2a2a2a;
+            padding: 25px 30px;
+            border-radius: 12px;
+            border-left: 4px solid #667eea;
+        }
+
+        .feature-item h4 {
+            font-size: 24px;
+            color: #667eea;
+            margin-bottom: 10px;
+        }
+
+        .feature-item p {
+            font-size: 20px;
+            color: #b0b0b0;
+        }
+
+        .slide-number {
+            position: fixed;
+            bottom: 30px;
+            right: 30px;
+            font-size: 18px;
+            color: #666;
+        }
+
+        .subtitle {
+            font-size: 32px;
+            color: #888;
+            margin-top: 10px;
+            font-style: italic;
+        }
+
+        .story-text {
+            max-width: 800px;
+            text-align: center;
+            line-height: 1.8;
+        }
+
+        .demo-instruction {
+            background: #2a2a2a;
+            padding: 40px 60px;
+            border-radius: 20px;
+            border: 3px solid #667eea;
+            margin-top: 40px;
+            font-size: 36px;
+            color: #667eea;
+            font-weight: 600;
+        }
+
+        code {
+            background: #2a2a2a;
+            padding: 4px 12px;
+            border-radius: 6px;
+            font-size: 24px;
+            color: #f92672;
+        }
+    </style>
+</head>
+<body>
+    <div class="slide-container">
+
+        <!-- Slide 1: Title -->
+        <div class="slide">
+            <div class="emoji">🐾</div>
+            <h1>ByteBuddy</h1>
+            <p class="subtitle">Your Pet. Your Desktop. Your Healthy Habits.</p>
+            <div class="pet-placeholder">
+                <div class="emoji" style="font-size: 100px;">📷</div>
+                <div class="pet-placeholder-text">
+                    [Add JayJay's photo here]<br>
+                    (Replace this div with: &lt;img src="jayjay.png" style="width: 100%; border-radius: 20px;"&gt;)
+                </div>
+            </div>
+        </div>
+
+        <!-- Slide 2: The Story -->
+        <div class="slide">
+            <h2>The Story</h2>
+            <div class="story-text">
+                <p style="margin-bottom: 30px;">
+                    <span class="highlight">High school me:</span><br>
+                    Obsessed with mobile pet games 📱<br>
+                    (Parents wouldn't let me have a real pet)
+                </p>
+                <p style="margin-bottom: 30px;">
+                    <span class="highlight">Now:</span><br>
+                    Meet JayJay - my 7-year-old Shiba Inu boy 🐕
+                </p>
+                <p style="margin-bottom: 30px;">
+                    <span class="highlight">The Problem:</span><br>
+                    Can't see him while coding 💻<br>
+                    Forget to drink water 💧<br>
+                    Forget to take breaks 🪑
+                </p>
+                <p>
+                    <span class="highlight" style="font-size: 36px;">The Solution: ByteBuddy</span>
+                </p>
+            </div>
+        </div>
+
+        <!-- Slide 3: Demo -->
+        <div class="slide">
+            <h2>Live Demo</h2>
+            <div class="demo-instruction">
+                ⚡ Switch to live app now ⚡
+            </div>
+            <div style="margin-top: 50px; text-align: center;">
+                <p style="margin-bottom: 20px;">What to show:</p>
+                <ul style="text-align: left; display: inline-block;">
+                    <li>Desktop pet (draggable)</li>
+                    <li>Animations</li>
+                    <li>Water reminder popup</li>
+                    <li>Menu bar settings</li>
+                    <li>Custom image upload</li>
+                    <li>Nano Banana workflow</li>
+                </ul>
+            </div>
+        </div>
+
+        <!-- Slide 4: Under the Hood -->
+        <div class="slide">
+            <h2>Under the Hood</h2>
+            <h3>Why Electron?</h3>
+            <p style="text-align: center; margin-bottom: 50px;">
+                Electron = <span class="highlight">Chromium</span> (rendering) + <span class="highlight">Node.js</span> (system access)
+            </p>
+
+            <div class="architecture">
+                <div class="process-box">
+                    <h4>Main Process</h4>
+                    <p>• Node.js runtime</p>
+                    <p>• System tray</p>
+                    <p>• Notifications</p>
+                    <p>• Window management</p>
+                </div>
+                <div class="arrow">↔</div>
+                <div class="process-box">
+                    <h4>Renderer Process</h4>
+                    <p>• Chromium rendering</p>
+                    <p>• Pet window UI</p>
+                    <p>• Animations</p>
+                    <p>• localStorage</p>
+                </div>
+            </div>
+
+            <p style="margin-top: 50px; text-align: center;">
+                <span class="highlight">~500 lines of code</span> • Simple • Maintainable
+            </p>
+        </div>
+
+        <!-- Slide 5: Features -->
+        <div class="slide">
+            <h2>Features & Future</h2>
+
+            <h3 style="margin-top: 40px;">Current Features ✅</h3>
+            <div class="feature-grid">
+                <div class="feature-item">
+                    <h4>Custom Images</h4>
+                    <p>Use your own pet's photo</p>
+                </div>
+                <div class="feature-item">
+                    <h4>Smart Reminders</h4>
+                    <p>Water & walk notifications</p>
+                </div>
+                <div class="feature-item">
+                    <h4>Smooth Animations</h4>
+                    <p>macOS optimized rendering</p>
+                </div>
+                <div class="feature-item">
+                    <h4>Persistent Settings</h4>
+                    <p>Set it and forget it</p>
+                </div>
+            </div>
+
+            <h3 style="margin-top: 50px;">Future Ideas 💡</h3>
+            <ul style="text-align: center; display: inline-block; margin-top: 20px;">
+                <li>More animations (walking, sleeping)</li>
+                <li>Pomodoro timer integration</li>
+                <li>Activity statistics & streaks</li>
+            </ul>
+        </div>
+
+        <!-- Slide 6: Thanks -->
+        <div class="slide">
+            <div class="emoji">🐾</div>
+            <h1 style="font-size: 64px;">Thank You!</h1>
+            <p class="subtitle" style="margin-bottom: 50px;">Built with ☕ and love for JayJay</p>
+
+            <a href="https://github.com/dumia16/ByteBuddy" class="github-link" target="_blank">
+                github.com/dumia16/ByteBuddy
+            </a>
+
+            <p style="margin-top: 50px; font-size: 24px; color: #888;">
+                Clone it • Try it with your own pet • Contribute!
+            </p>
+
+            <p style="margin-top: 80px; font-size: 28px;">
+                Questions? 🙋
+            </p>
+        </div>
+
+    </div>
+
+    <div class="slide-number" id="slideNumber">Slide 1 of 6</div>
+
+    <script>
+        // Track current slide for slide number display
+        const slides = document.querySelectorAll('.slide');
+        const container = document.querySelector('.slide-container');
+        const slideNumber = document.getElementById('slideNumber');
+
+        container.addEventListener('scroll', () => {
+            const scrollPosition = container.scrollTop;
+            const slideHeight = window.innerHeight;
+            const currentSlide = Math.round(scrollPosition / slideHeight) + 1;
+            slideNumber.textContent = `Slide ${currentSlide} of ${slides.length}`;
+        });
+
+        // Keyboard navigation
+        document.addEventListener('keydown', (e) => {
+            const scrollAmount = window.innerHeight;
+            if (e.key === 'ArrowDown' || e.key === ' ' || e.key === 'PageDown') {
+                e.preventDefault();
+                container.scrollBy({ top: scrollAmount, behavior: 'smooth' });
+            } else if (e.key === 'ArrowUp' || e.key === 'PageUp') {
+                e.preventDefault();
+                container.scrollBy({ top: -scrollAmount, behavior: 'smooth' });
+            } else if (e.key === 'Home') {
+                e.preventDefault();
+                container.scrollTo({ top: 0, behavior: 'smooth' });
+            } else if (e.key === 'End') {
+                e.preventDefault();
+                container.scrollTo({ top: container.scrollHeight, behavior: 'smooth' });
+            }
+        });
+    </script>
+</body>
+</html>
