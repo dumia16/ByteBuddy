@@ -44,7 +44,7 @@ Remember those virtual pet apps from the 90s? I was obsessed with them in high s
 
 1. **Clone the repository**
    ```bash
-   git clone <your-repo-url>
+   git clone https://github.com/dumia16/ByteBuddy.git
    cd ByteBuddy
    ```
 
@@ -95,6 +95,19 @@ ByteBuddy/
 ```
 
 ## 🎨 Customization Guide
+
+### Create a Cartoon Version with Nano Banana (Optional)
+
+Want to turn your pet into an adorable cartoon character? Use Nano Banana AI to generate a cartoon version:
+
+1. **Generate your pet's cartoon**
+   - Visit [Nano Banana](https://nanobanana.ai) (or use Claude with prompt engineering)
+   - Upload your pet's photo
+   - Prompt: "Create a cute cartoon/anime style character of this dog/cat with simple, clean lines"
+   - Download the generated image
+
+2. **Upload to ByteBuddy**
+   - Follow the steps below to upload your new cartoon pet image!
 
 ### Upload Your Pet's Photo (Recommended)
 
