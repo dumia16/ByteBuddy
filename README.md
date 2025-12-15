@@ -106,7 +106,20 @@ Want to turn your pet into an adorable cartoon character? Use Nano Banana AI to 
    - Prompt: "Create a cute cartoon/anime style character of this dog/cat with simple, clean lines"
    - Download the generated image
 
-2. **Upload to ByteBuddy**
+2. **Remove the background** (Recommended for better desktop appearance)
+   - **Using macOS Preview** (Built-in, Free):
+     - Open image in Preview
+     - Click the markup tool (pencil icon)
+     - Use "Instant Alpha" tool to select and remove background
+     - Export as PNG to preserve transparency
+   - **Using Photoshop** (If available):
+     - Open image in Photoshop
+     - Use "Remove Background" feature (Select > Subject, then invert and delete)
+     - Or use Magic Wand/Quick Selection tools
+     - Save as PNG with transparency
+   - This makes your pet look natural on your desktop!
+
+3. **Upload to ByteBuddy**
    - Follow the steps below to upload your new cartoon pet image!
 
 ### Upload Your Pet's Photo (Recommended)

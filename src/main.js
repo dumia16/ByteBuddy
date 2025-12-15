@@ -107,8 +107,12 @@ function createTray() {
   tray = new Tray(iconPath);
 
   // Set as template image for macOS (adapts to light/dark mode)
+  tray.setToolTip('ByteBuddy 🐾');
   if (process.platform === 'darwin') {
-    tray.setImage(iconPath);
+    const nativeImage = require('electron').nativeImage;
+    const image = nativeImage.createFromPath(iconPath);
+    image.setTemplateImage(true);
+    tray.setImage(image);
   }
 
   const contextMenu = Menu.buildFromTemplate([

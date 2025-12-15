@@ -15,23 +15,36 @@
             font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Helvetica Neue', Arial, sans-serif;
             background: #1a1a1a;
             color: #ffffff;
-            overflow-x: hidden;
+            overflow: hidden;
         }
 
         .slide {
-            min-height: 100vh;
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100vh;
             display: flex;
             flex-direction: column;
             justify-content: center;
             align-items: center;
             padding: 60px 80px;
-            scroll-snap-align: start;
+            opacity: 0;
+            visibility: hidden;
+            transition: opacity 0.5s ease, visibility 0.5s;
+        }
+
+        .slide.active {
+            opacity: 1;
+            visibility: visible;
+            z-index: 1;
         }
 
         .slide-container {
-            scroll-snap-type: y mandatory;
-            overflow-y: scroll;
+            position: relative;
+            width: 100%;
             height: 100vh;
+            overflow: hidden;
         }
 
         h1 {
@@ -197,6 +210,57 @@
             right: 30px;
             font-size: 18px;
             color: #666;
+            z-index: 100;
+        }
+
+        .nav-button {
+            position: fixed;
+            top: 50%;
+            transform: translateY(-50%);
+            background: rgba(102, 126, 234, 0.3);
+            border: 2px solid rgba(102, 126, 234, 0.5);
+            color: #667eea;
+            width: 60px;
+            height: 60px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            font-size: 28px;
+            z-index: 100;
+            transition: all 0.3s ease;
+            user-select: none;
+        }
+
+        .nav-button:hover {
+            background: rgba(102, 126, 234, 0.5);
+            transform: translateY(-50%) scale(1.1);
+        }
+
+        .nav-button.disabled {
+            opacity: 0.3;
+            cursor: not-allowed;
+            pointer-events: none;
+        }
+
+        .nav-prev {
+            left: 30px;
+        }
+
+        .nav-next {
+            right: 30px;
+        }
+
+        .nav-hint {
+            position: fixed;
+            bottom: 80px;
+            left: 50%;
+            transform: translateX(-50%);
+            font-size: 16px;
+            color: #666;
+            z-index: 100;
+            text-align: center;
         }
 
         .subtitle {
@@ -240,13 +304,6 @@
             <div class="emoji">🐾</div>
             <h1>ByteBuddy</h1>
             <p class="subtitle">Your Pet. Your Desktop. Your Healthy Habits.</p>
-            <div class="pet-placeholder">
-                <div class="emoji" style="font-size: 100px;">📷</div>
-                <div class="pet-placeholder-text">
-                    [Add JayJay's photo here]<br>
-                    (Replace this div with: &lt;img src="jayjay.png" style="width: 100%; border-radius: 20px;"&gt;)
-                </div>
-            </div>
         </div>
 
         <!-- Slide 2: The Story -->
@@ -324,36 +381,21 @@
             </p>
         </div>
 
-        <!-- Slide 5: Features -->
+        <!-- Slide 5: Future -->
         <div class="slide">
-            <h2>Features & Future</h2>
+            <h2>What's Next?</h2>
+            <div class="emoji" style="margin-top: 40px;">💡</div>
 
-            <h3 style="margin-top: 40px;">Current Features ✅</h3>
-            <div class="feature-grid">
-                <div class="feature-item">
-                    <h4>Custom Images</h4>
-                    <p>Use your own pet's photo</p>
-                </div>
-                <div class="feature-item">
-                    <h4>Smart Reminders</h4>
-                    <p>Water & walk notifications</p>
-                </div>
-                <div class="feature-item">
-                    <h4>Smooth Animations</h4>
-                    <p>macOS optimized rendering</p>
-                </div>
-                <div class="feature-item">
-                    <h4>Persistent Settings</h4>
-                    <p>Set it and forget it</p>
-                </div>
-            </div>
-
-            <h3 style="margin-top: 50px;">Future Ideas 💡</h3>
-            <ul style="text-align: center; display: inline-block; margin-top: 20px;">
-                <li>More animations (walking, sleeping)</li>
-                <li>Pomodoro timer integration</li>
-                <li>Activity statistics & streaks</li>
+            <ul style="text-align: left; display: inline-block; margin-top: 40px;">
+                <li style="font-size: 32px; margin-bottom: 30px;">More animations (walking, sleeping, playing)</li>
+                <li style="font-size: 32px; margin-bottom: 30px;">Pomodoro timer integration</li>
+                <li style="font-size: 32px; margin-bottom: 30px;">Activity tracking & streaks gamification</li>
             </ul>
+
+            <p style="margin-top: 60px; font-size: 28px; color: #888; max-width: 800px; text-align: center;">
+                Philosophy: <span class="highlight">Ship something that works first.</span><br>
+                Future features come from real usage, not just cool ideas.
+            </p>
         </div>
 
         <!-- Slide 6: Thanks -->
@@ -377,38 +419,84 @@
 
     </div>
 
+    <div class="nav-button nav-prev" id="prevButton">‹</div>
+    <div class="nav-button nav-next" id="nextButton">›</div>
     <div class="slide-number" id="slideNumber">Slide 1 of 6</div>
+    <div class="nav-hint">Use ← → arrow keys, Space, or click arrows to navigate</div>
 
     <script>
-        // Track current slide for slide number display
+        // Slide navigation
+        let currentSlide = 0;
         const slides = document.querySelectorAll('.slide');
-        const container = document.querySelector('.slide-container');
         const slideNumber = document.getElementById('slideNumber');
+        const prevButton = document.getElementById('prevButton');
+        const nextButton = document.getElementById('nextButton');
+        const totalSlides = slides.length;
 
-        container.addEventListener('scroll', () => {
-            const scrollPosition = container.scrollTop;
-            const slideHeight = window.innerHeight;
-            const currentSlide = Math.round(scrollPosition / slideHeight) + 1;
-            slideNumber.textContent = `Slide ${currentSlide} of ${slides.length}`;
-        });
+        function showSlide(index) {
+            // Remove active class from all slides
+            slides.forEach(slide => slide.classList.remove('active'));
+
+            // Add active class to current slide
+            slides[index].classList.add('active');
+
+            // Update slide number
+            slideNumber.textContent = `Slide ${index + 1} of ${totalSlides}`;
+
+            // Update navigation buttons
+            prevButton.classList.toggle('disabled', index === 0);
+            nextButton.classList.toggle('disabled', index === totalSlides - 1);
+        }
+
+        function nextSlide() {
+            if (currentSlide < totalSlides - 1) {
+                currentSlide++;
+                showSlide(currentSlide);
+            }
+        }
+
+        function prevSlide() {
+            if (currentSlide > 0) {
+                currentSlide--;
+                showSlide(currentSlide);
+            }
+        }
+
+        function goToSlide(index) {
+            if (index >= 0 && index < totalSlides) {
+                currentSlide = index;
+                showSlide(currentSlide);
+            }
+        }
 
         // Keyboard navigation
         document.addEventListener('keydown', (e) => {
-            const scrollAmount = window.innerHeight;
-            if (e.key === 'ArrowDown' || e.key === ' ' || e.key === 'PageDown') {
+            if (e.key === 'ArrowRight' || e.key === 'ArrowDown' || e.key === ' ' || e.key === 'PageDown') {
                 e.preventDefault();
-                container.scrollBy({ top: scrollAmount, behavior: 'smooth' });
-            } else if (e.key === 'ArrowUp' || e.key === 'PageUp') {
+                nextSlide();
+            } else if (e.key === 'ArrowLeft' || e.key === 'ArrowUp' || e.key === 'PageUp') {
                 e.preventDefault();
-                container.scrollBy({ top: -scrollAmount, behavior: 'smooth' });
+                prevSlide();
             } else if (e.key === 'Home') {
                 e.preventDefault();
-                container.scrollTo({ top: 0, behavior: 'smooth' });
+                goToSlide(0);
             } else if (e.key === 'End') {
                 e.preventDefault();
-                container.scrollTo({ top: container.scrollHeight, behavior: 'smooth' });
+                goToSlide(totalSlides - 1);
+            } else if (e.key >= '1' && e.key <= '9') {
+                const slideIndex = parseInt(e.key) - 1;
+                if (slideIndex < totalSlides) {
+                    goToSlide(slideIndex);
+                }
             }
         });
+
+        // Button click navigation
+        prevButton.addEventListener('click', prevSlide);
+        nextButton.addEventListener('click', nextSlide);
+
+        // Initialize first slide
+        showSlide(currentSlide);
     </script>
 </body>
 </html>
