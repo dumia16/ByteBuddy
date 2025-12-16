@@ -176,9 +176,17 @@ function showReminder(message) {
   const bubble = document.getElementById('speech-bubble');
   const messageText = document.getElementById('message-text');
   const dismissBtn = document.getElementById('dismiss-btn');
+  const waitBtn = document.getElementById('wait-btn');
+
+  // Track wait count for progressive pressure
+  let waitCount = 0;
 
   messageText.textContent = message;
   bubble.classList.remove('hidden', 'bubble-hiding');
+
+  // Reset wait button to visible and default text
+  waitBtn.style.display = 'block';
+  waitBtn.textContent = 'Wait';
 
   // Animate pet
   if (pet) {
@@ -189,16 +197,68 @@ function showReminder(message) {
   showNotification('ByteBuddy', message);
 
   // Auto-dismiss after 10 seconds
-  const autoDismiss = setTimeout(() => {
+  let autoDismiss = setTimeout(() => {
     dismissBubble(bubble);
   }, 10000);
 
-  // Dismiss button
+  // OK button - dismiss immediately with celebration
   dismissBtn.onclick = () => {
     clearTimeout(autoDismiss);
     dismissBubble(bubble);
     if (pet) {
       pet.celebrate();
+    }
+  };
+
+  // Wait button - progressive pressure with personality
+  waitBtn.onclick = () => {
+    clearTimeout(autoDismiss);
+    waitCount++;
+
+    if (waitCount === 1) {
+      // First wait: understanding and patient
+      messageText.textContent = "Alright, 10 more seconds then! 😊";
+      waitBtn.textContent = "Okay fine...";
+
+      // Pet shows slight disappointment
+      if (pet && pet.shake) {
+        pet.shake();
+      }
+
+      // Give another 10 seconds
+      autoDismiss = setTimeout(() => {
+        dismissBubble(bubble);
+      }, 10000);
+
+    } else if (waitCount === 2) {
+      // Second wait: more insistent
+      messageText.textContent = "Really need that water now! 💧";
+      waitBtn.textContent = "Just 5 more...";
+
+      // Pet shows more concern
+      if (pet && pet.alert) {
+        pet.alert();
+      }
+
+      // Only 5 seconds this time
+      autoDismiss = setTimeout(() => {
+        dismissBubble(bubble);
+      }, 5000);
+
+    } else {
+      // Third wait: no more waiting! Hide wait button
+      messageText.textContent = "I'm worried about you! Please drink water! 🥺";
+      waitBtn.style.display = 'none';
+
+      // Pet shows sadness
+      if (pet && pet.shake) {
+        pet.shake();
+      }
+
+      // Still auto-dismiss after 5 seconds, but wait is no longer an option
+      autoDismiss = setTimeout(() => {
+        dismissBubble(bubble);
+      }, 5000);
     }
   };
 }

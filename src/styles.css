@@ -104,20 +104,42 @@ body {
   margin: 0;
 }
 
-#dismiss-btn {
-  align-self: flex-end;
-  padding: 4px 12px;
-  background: #007aff;
-  color: white;
+.button-group {
+  display: flex;
+  gap: 8px;
+  justify-content: flex-end;
+}
+
+.primary-btn, .secondary-btn {
+  padding: 6px 14px;
   border: none;
   border-radius: 6px;
   font-size: 12px;
   cursor: pointer;
-  transition: background 0.2s;
+  transition: all 0.2s;
+  font-weight: 500;
 }
 
-#dismiss-btn:hover {
+.primary-btn {
+  background: #007aff;
+  color: white;
+}
+
+.primary-btn:hover {
   background: #0051d5;
+  transform: translateY(-1px);
+  box-shadow: 0 2px 6px rgba(0, 122, 255, 0.3);
+}
+
+.secondary-btn {
+  background: #f5f5f7;
+  color: #333;
+  border: 1px solid #d1d1d6;
+}
+
+.secondary-btn:hover {
+  background: #e8e8ed;
+  transform: translateY(-1px);
 }
 
 /* Utility classes */
