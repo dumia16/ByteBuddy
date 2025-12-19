@@ -71,7 +71,7 @@ That's it! Your personalized desktop pet is ready to go!
 
 Run with DevTools for debugging:
 ```bash
-npm start -- --dev
+npm run dev
 ```
 
 ## 📁 Project Structure
@@ -185,7 +185,7 @@ All settings are saved automatically in localStorage.
 ### Pet not showing up?
 - Make sure the window isn't off-screen (restart the app)
 - Check if transparency is supported on your OS
-- Try running in dev mode: `npm start -- --dev`
+- Try running in dev mode: `npm run dev`
 
 ### Notifications not working?
 - Check System Preferences > Notifications
