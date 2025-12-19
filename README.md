@@ -195,6 +195,11 @@ All settings are saved automatically in localStorage.
 ### Can't see the menu bar icon?
 - Look for the 🐾 paw print in your macOS menu bar (top right)
 - If missing, make sure the app is running
+- **Icon hidden due to too many menu bar items?** On macOS, if you have many menu bar applications, the tray icon may be automatically hidden on the right side:
+  - Hold down Command (⌘) and drag other menu bar icons to rearrange them
+  - Close or quit unused menu bar applications to free up space
+  - Consider using menu bar management tools like Bartender or Hidden Bar
+  - Alternatively, you can access settings via keyboard shortcut (if configured)
 
 ### Image upload fails?
 - Check file size (max 5MB)
